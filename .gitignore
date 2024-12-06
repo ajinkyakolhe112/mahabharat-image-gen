@@ -1,0 +1,6 @@
+.gguf
+ai-toolkit
+.DS_Store
+.env
+llava-llama-3-8b-v1_1-f16.gguf
+llava-llama-3-8b-v1_1-mmproj-f16.gguf

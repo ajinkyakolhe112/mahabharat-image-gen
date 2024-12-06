@@ -1,0 +1,15 @@
+- characters
+  - krishna
+  - bhishma
+  - yudhisthir, arjun, bhima, nakul, sahdev
+  - draupadi
+- palaces
+  - hastinapur palace
+  - indraprastha palace
+  - lakshagrah
+- general women characters
+- general men characters
+- weapons
+  - Bow and arrow
+  - Gadha
+- temple idols
