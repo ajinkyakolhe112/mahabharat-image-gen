@@ -4,6 +4,19 @@ import requests
 import base64
 from io import BytesIO
 
+from ollama import chat
+from ollama import ChatResponse
+
+response: ChatResponse = chat(model='llama3.2', messages=[
+  {
+    'role': 'user',
+    'content': 'Why is the sky blue?',
+  },
+])
+print(response['message']['content'])
+# or access fields directly from the response object
+print(response.message.content)
+
 def is_image_file(filename):
     """Simple check for image file extensions"""
     return filename.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp', '.webp'))

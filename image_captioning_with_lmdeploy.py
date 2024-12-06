@@ -7,10 +7,9 @@ def is_image_file(filename):
     return filename.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp', '.webp'))
 
 # Initialize model
-pipe = pipeline('xtuner/llava-llama-3-8b-v1_1-hf',
-                chat_template_config=ChatTemplateConfig(model_name='llama3'))
+pipe = pipeline('xtuner/llava-llama-3-8b-v1_1-hf', chat_template_config=ChatTemplateConfig(model_name='llama3'))
 
-IMAGES_PATH = "mahabharat_images_dataset"
+IMAGES_PATH = "ai-toolkit/mahabharat_images_dataset"
 
 for subdirs in os.listdir(IMAGES_PATH):
     subdir_path = os.path.join(IMAGES_PATH, subdirs)
