@@ -11,6 +11,8 @@ Captioning images using existing llava model
     - use llava with `transformers` or `ollama` or `llava, lmdeploy` 
 
 - [x] Download all sub categories of pictures. (14 categories, 350 photos)
-- [ ] Generate captions of all custom images with llava model
+- [x] Generate captions of all custom images with llava model
 - [ ] edit captions for each to add some specific details. 
-- train model on custom dataset
+- [x] train model on custom dataset
+- [x] upload lora adapter on huggingface
+- [x] showcase model on huggingface space
