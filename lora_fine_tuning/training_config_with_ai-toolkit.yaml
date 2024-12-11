@@ -2,7 +2,7 @@
 job: extension
 config:
   # this name will be the folder and filename name
-  name: "my_first_flux_lora_v1"
+  name: "my_first_flux_lora_v2"
   process:
     - type: 'sd_trainer'
       # root folder to save training sessions/samples/weights
@@ -75,7 +75,7 @@ config:
         prompts:
           # you can add [trigger] to the prompts here and it will be replaced with the trigger word
 #          - "[trigger] holding a sign that says 'I LOVE PROMPTS!'"\
-            - "a woman holding a coffee cup, in a beanie, sitting at a cafe"
+            - "MBHT ancient indian castle like indraprastha"
         neg: ""  # not used on flux
         seed: 42
         walk_seed: true

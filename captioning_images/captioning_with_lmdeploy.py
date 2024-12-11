@@ -1,13 +1,17 @@
 import os
 from PIL import Image
 from lmdeploy import pipeline, ChatTemplateConfig
+import lmdeploy
 
 def is_image_file(filename):
     """Simple check for image file extensions"""
     return filename.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp', '.webp'))
 
 # Initialize model
-pipe = pipeline('xtuner/llava-llama-3-8b-v1_1-hf', chat_template_config=ChatTemplateConfig(model_name='llama3'))
+pipe = lmdeploy.pipeline('xtuner/llava-llama-3-8b-v1_1-hf', chat_template_config=ChatTemplateConfig(model_name='llama3'))
+# pip install 'lmdeploy>=0.4.0'
+# pip install git+https://github.com/haotian-liu/LLaVA.git --no-deps
+
 
 IMAGES_PATH = "ai-toolkit/mahabharat_images_dataset"
 
