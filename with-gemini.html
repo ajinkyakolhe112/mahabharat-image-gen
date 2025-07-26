@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mahabharat Visual Storyteller</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Sanskrit:ital@0;1&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .title-font {
+            font-family: 'Tiro Devanagari Sanskrit', serif;
+        }
+        /* Custom loader style */
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #8B5CF6; /* Violet-500 */
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* Timeline styles */
+        .timeline-node {
+            transition: all 0.3s ease;
+        }
+        .timeline-node.active .timeline-circle {
+            background-color: #8B5CF6; /* bg-violet-500 */
+            transform: scale(1.25);
+        }
+        .timeline-node.active .timeline-label {
+            font-weight: 700;
+            color: #8B5CF6; /* text-violet-500 */
+        }
+        .dark .timeline-node.active .timeline-label {
+             color: #A78BFA; /* text-violet-400 */
+        }
+        .dark .timeline-node.active .timeline-circle {
+            background-color: #A78BFA; /* bg-violet-400 */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-5xl">
+        
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <h1 class="text-4xl sm:text-5xl font-bold title-font text-violet-600 dark:text-violet-400">महाभारत</h1>
+            <h2 class="text-2xl sm:text-3xl font-semibold title-font">Visual Storyteller</h2>
+            <p class="mt-2 text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">Select a pivotal moment from the epic and a visual style, and let AI bring the story to life.</p>
+        </header>
+
+        <!-- Controls Section -->
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Event Selection -->
+                <div>
+                    <label for="event-select" class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">1. Choose an Event</label>
+                    <select id="event-select" class="w-full p-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500 transition">
+                        <option value="The Game of Dice (Dyuta Krida)">The Game of Dice (Dyuta Krida)</option>
+                        <option value="Draupadi's Disrobing">Draupadi's Disrobing</option>
+                        <option value="Arjuna's Dilemma in Kurukshetra">Arjuna's Dilemma in Kurukshetra</option>
+                        <option value="Krishna reveals his Vishwaroopa">Krishna reveals his Vishwaroopa</option>
+                        <option value="Bhishma on the bed of arrows">Bhishma on the bed of arrows</option>
+                        <option value="Abhimanyu in the Chakravyuha">Abhimanyu in the Chakravyuha</option>
+                        <option value="The fall of Dronacharya">The fall of Dronacharya</option>
+                        <option value="Karna's final battle">Karna's final battle</option>
+                    </select>
+                </div>
+                <!-- Style Input -->
+                <div>
+                    <label for="style-input" class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">2. Describe a Visual Style</label>
+                    <input type="text" id="style-input" class="w-full p-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500 transition" placeholder="e.g., Amar Chitra Katha comic style">
+                </div>
+            </div>
+            
+            <!-- Generate Button -->
+            <div class="mt-6 text-center">
+                <button id="generate-btn" class="w-full sm:w-auto bg-violet-600 hover:bg-violet-700 text-white font-bold py-3 px-8 rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-300">
+                    Generate Story
+                </button>
+            </div>
+        </div>
+
+        <!-- Timeline Section -->
+        <div id="timeline-section" class="mb-8">
+            <h3 class="text-center text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4">Chronology</h3>
+            <div class="w-full max-w-3xl mx-auto">
+                <div class="relative">
+                    <!-- The line -->
+                    <div class="absolute top-1/2 left-0 w-full h-0.5 bg-gray-300 dark:bg-gray-600 -translate-y-1/2"></div>
+                    <!-- Timeline Nodes -->
+                    <div class="relative flex justify-between">
+                        <div id="timeline-beginning" class="timeline-node text-center">
+                            <div class="timeline-circle relative w-4 h-4 bg-gray-300 dark:bg-gray-600 rounded-full mx-auto transition-all duration-300"></div>
+                            <p class="timeline-label mt-2 text-xs sm:text-sm text-gray-600 dark:text-gray-400 transition-all duration-300">The Beginning</p>
+                        </div>
+                        <div id="timeline-exile" class="timeline-node text-center">
+                            <div class="timeline-circle relative w-4 h-4 bg-gray-300 dark:bg-gray-600 rounded-full mx-auto transition-all duration-300"></div>
+                            <p class="timeline-label mt-2 text-xs sm:text-sm text-gray-600 dark:text-gray-400 transition-all duration-300">The Exile</p>
+                        </div>
+                        <div id="timeline-war" class="timeline-node text-center">
+                            <div class="timeline-circle relative w-4 h-4 bg-gray-300 dark:bg-gray-600 rounded-full mx-auto transition-all duration-300"></div>
+                            <p class="timeline-label mt-2 text-xs sm:text-sm text-gray-600 dark:text-gray-400 transition-all duration-300">The War</p>
+                        </div>
+                        <div id="timeline-aftermath" class="timeline-node text-center">
+                            <div class="timeline-circle relative w-4 h-4 bg-gray-300 dark:bg-gray-600 rounded-full mx-auto transition-all duration-300"></div>
+                            <p class="timeline-label mt-2 text-xs sm:text-sm text-gray-600 dark:text-gray-400 transition-all duration-300">The Aftermath</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Output Section -->
+        <div id="output-section" class="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-2xl shadow-lg min-h-[300px] flex items-center justify-center transition-all duration-500">
+            <!-- Initial State Message -->
+            <div id="initial-message" class="text-center text-gray-500 dark:text-gray-400">
+                <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                <p class="mt-2">Your visual story will appear here.</p>
+            </div>
+            
+            <!-- Loader -->
+            <div id="loader" class="hidden">
+                <div class="loader"></div>
+                <p class="mt-4 text-center text-gray-600 dark:text-gray-300">The looms of fate are weaving...</p>
+            </div>
+
+            <!-- Result Display -->
+            <div id="result" class="hidden w-full">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+                    <!-- Generated Image -->
+                    <div class="w-full aspect-square bg-gray-200 dark:bg-gray-700 rounded-xl flex items-center justify-center overflow-hidden">
+                        <img id="result-image" src="" alt="Generated visual story from the Mahabharat" class="w-full h-full object-cover">
+                    </div>
+                    <!-- Generated Narrative -->
+                    <div class="prose prose-lg dark:prose-invert max-w-none">
+                        <h3 id="result-title" class="title-font text-2xl font-bold text-violet-600 dark:text-violet-400"></h3>
+                        <p id="result-narrative" class="text-gray-700 dark:text-gray-300"></p>
+                    </div>
+                </div>
+            </div>
+             <!-- Error Display -->
+            <div id="error-message" class="hidden text-center text-red-500">
+                <p>Apologies, the celestial weapons failed. Please try again.</p>
+                <p id="error-details" class="text-sm text-gray-400 mt-2"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const generateBtn = document.getElementById('generate-btn');
+        const eventSelect = document.getElementById('event-select');
+        const styleInput = document.getElementById('style-input');
+        
+        const initialMessage = document.getElementById('initial-message');
+        const loader = document.getElementById('loader');
+        const resultDiv = document.getElementById('result');
+        const errorMessage = document.getElementById('error-message');
+
+        const resultImage = document.getElementById('result-image');
+        const resultTitle = document.getElementById('result-title');
+        const resultNarrative = document.getElementById('result-narrative');
+        const errorDetails = document.getElementById('error-details');
+
+        const timelineNodes = document.querySelectorAll('.timeline-node');
+
+        // --- Data Mapping for Timeline ---
+        const eventToTimelineMap = {
+            "The Game of Dice (Dyuta Krida)": "timeline-exile",
+            "Draupadi's Disrobing": "timeline-exile",
+            "Arjuna's Dilemma in Kurukshetra": "timeline-war",
+            "Krishna reveals his Vishwaroopa": "timeline-war",
+            "Bhishma on the bed of arrows": "timeline-war",
+            "Abhimanyu in the Chakravyuha": "timeline-war",
+            "The fall of Dronacharya": "timeline-war",
+            "Karna's final battle": "timeline-war"
+        };
+        // Add a default mapping for any other cases, though the dropdown is fixed.
+        eventToTimelineMap['default'] = 'timeline-beginning';
+
+        // --- Event Listeners ---
+        generateBtn.addEventListener('click', generateStory);
+        eventSelect.addEventListener('change', () => updateTimeline(eventSelect.value));
+
+        // --- Functions ---
+
+        /**
+         * Updates the timeline UI based on the selected event.
+         * @param {string} selectedEvent - The value from the event select dropdown.
+         */
+        function updateTimeline(selectedEvent) {
+            // Reset all nodes
+            timelineNodes.forEach(node => node.classList.remove('active'));
+
+            // Find the corresponding timeline ID
+            const activeNodeId = eventToTimelineMap[selectedEvent] || eventToTimelineMap['default'];
+            
+            // Activate the correct node
+            const activeNode = document.getElementById(activeNodeId);
+            if (activeNode) {
+                activeNode.classList.add('active');
+            }
+        }
+
+
+        async function generateStory() {
+            // 1. Get user inputs
+            const event = eventSelect.value;
+            const style = styleInput.value || 'epic, detailed, painterly style'; // Default style
+
+            // 2. Update UI to loading state
+            initialMessage.classList.add('hidden');
+            resultDiv.classList.add('hidden');
+            errorMessage.classList.add('hidden');
+            loader.classList.remove('hidden');
+            generateBtn.disabled = true;
+            generateBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+            try {
+                // --- STEP 1: Generate the narrative first ---
+                const narrativePrompt = `You are a wise storyteller (sutradhar). In a single, evocative paragraph of about 80-100 words, describe the Mahabharata scene: '${event}'. Focus on the core emotion, the atmosphere, and the key characters involved. Do not break into multiple paragraphs.`;
+                
+                let narrativeText = await callGemini(narrativePrompt);
+
+                // Clean up the response if it contains markdown
+                narrativeText = narrativeText.replace(/[*#`]/g, '').trim();
+
+                // --- STEP 2: Generate the image using the narrative ---
+                const imagePrompt = `An ultra-detailed, epic illustration of a scene from the Mahabharata. The scene is: '${event}'. 
+                The atmosphere and story is as follows: "${narrativeText}".
+                The visual style should be: '${style}'. 
+                Focus on the expressions of the characters and the dramatic lighting of the scene. Avoid text or words in the image.`;
+                
+                const imageUrl = await callImagen(imagePrompt);
+
+                // 3. Update UI with the results
+                resultTitle.textContent = event;
+                resultNarrative.textContent = narrativeText;
+                resultImage.src = imageUrl;
+                
+                loader.classList.add('hidden');
+                resultDiv.classList.remove('hidden');
+
+            } catch (error) {
+                console.error('Error generating story:', error);
+                errorDetails.textContent = error.message;
+                loader.classList.add('hidden');
+                errorMessage.classList.remove('hidden');
+            } finally {
+                // 4. Re-enable the button
+                generateBtn.disabled = false;
+                generateBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+        }
+
+        /**
+         * Calls the Gemini API for text generation.
+         * @param {string} prompt The text prompt to send.
+         * @returns {Promise<string>} The generated text.
+         */
+        async function callGemini(prompt) {
+            const apiKey = ""; // Leave empty, handled by the environment
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+            
+            const payload = {
+                contents: [{ role: "user", parts: [{ text: prompt }] }]
+            };
+
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status} ${response.statusText}`);
+            }
+
+            const result = await response.json();
+            
+            if (result.candidates && result.candidates.length > 0 &&
+                result.candidates[0].content && result.candidates[0].content.parts &&
+                result.candidates[0].content.parts.length > 0) {
+                return result.candidates[0].content.parts[0].text;
+            } else {
+                throw new Error('Invalid response structure from Gemini API.');
+            }
+        }
+
+        /**
+         * Calls the Imagen API for image generation.
+         * @param {string} prompt The text prompt for the image.
+         * @returns {Promise<string>} The base64 encoded image URL.
+         */
+        async function callImagen(prompt) {
+            const apiKey = ""; // Leave empty, handled by the environment
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
+
+            const payload = {
+                instances: [{ prompt: prompt }],
+                parameters: { "sampleCount": 1 }
+            };
+
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status} ${response.statusText}`);
+            }
+
+            const result = await response.json();
+
+            if (result.predictions && result.predictions.length > 0 && result.predictions[0].bytesBase64Encoded) {
+                return `data:image/png;base64,${result.predictions[0].bytesBase64Encoded}`;
+            } else {
+                throw new Error('Invalid response structure from Imagen API.');
+            }
+        }
+
+        // --- Initial Setup on Page Load ---
+        document.addEventListener('DOMContentLoaded', () => {
+            updateTimeline(eventSelect.value);
+        });
+    </script>
+</body>
+</html>
